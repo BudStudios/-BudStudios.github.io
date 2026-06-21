@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Bud Studios — About</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+    --bg:#050505;
+    --card:#0f0f0f;
+    --text:#ffffff;
+    --muted:#9c9c9c;
+    --red:#ff2d55;
+    --blue:#3b82f6;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Inter',sans-serif;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:var(--bg);
+    color:white;
+    overflow-x:hidden;
+}
+
+/* Noise Overlay */
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background-image:url("https://www.transparenttextures.com/patterns/asfalt-dark.png");
+    opacity:.03;
+    pointer-events:none;
+    z-index:999;
+}
+
+/* Spotlight */
+
+.spotlight{
+    position:fixed;
+    width:700px;
+    height:700px;
+    border-radius:50%;
+    background:
+    radial-gradient(circle,
+    rgba(59,130,246,.12),
+    rgba(255,45,85,.08),
+    transparent 70%);
+    pointer-events:none;
+    z-index:0;
+    transform:translate(-50%,-50%);
+}
+
+/* Grid */
+
+.grid{
+    position:fixed;
+    inset:0;
+    background-image:
+    linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size:40px 40px;
+    z-index:-1;
+}
+
+/* Navbar */
+
+nav{
+    position:fixed;
+    width:100%;
+    top:0;
+    z-index:100;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 7%;
+    backdrop-filter:blur(16px);
+    border-bottom:1px solid rgba(255,255,255,.05);
+}
+
+.logo{
+    font-size:1.6rem;
+    font-weight:800;
+    text-decoration:none;
+    color:white;
+}
+
+.logo span{
+    background:linear-gradient(
+    90deg,
+    var(--red),
+    var(--blue));
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.links{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:35px;
+}
+
+.links a{
+    color:white;
+    text-decoration:none;
+    text-align:center;
+    transition:.3s;
+}
+
+.links a:hover{
+    color:var(--blue);
+}
+
+.links a.active{
+    color:var(--blue);
+}
+
+/* Page Header */
+
+.page-header{
+    padding:180px 8% 40px;
+    text-align:center;
+    max-width:1100px;
+    margin:auto;
+}
+
+.page-header h1{
+    font-size:clamp(2.6rem,7vw,5rem);
+    line-height:1.05;
+    margin-bottom:30px;
+}
+
+.page-header p{
+    color:var(--muted);
+    font-size:1.15rem;
+    line-height:1.8;
+    max-width:750px;
+    margin:auto;
+}
+
+/* Particles */
+
+canvas{
+    position:fixed;
+    inset:0;
+    z-index:-2;
+}
+
+/* Alliances */
+
+.alliances-section{
+    padding:80px 8% 180px;
+    max-width:900px;
+    margin:auto;
+}
+
+.alliances-section h2{
+    font-size:clamp(1.8rem,4vw,2.6rem);
+    margin-bottom:35px;
+    text-align:center;
+}
+
+.alliance-bar{
+    display:flex;
+    align-items:center;
+    gap:20px;
+
+    padding:20px 25px;
+
+    border-radius:20px;
+
+    background:rgba(255,255,255,.03);
+    border:1px solid rgba(255,255,255,.08);
+    backdrop-filter:blur(20px);
+
+    transition:.35s;
+}
+
+.alliance-bar:hover{
+    transform:translateY(-6px);
+    border-color:rgba(59,130,246,.5);
+}
+
+.alliance-icon{
+    width:56px;
+    height:56px;
+    border-radius:18px;
+    overflow:hidden;
+    flex-shrink:0;
+    background:rgba(255,255,255,.05);
+}
+
+.alliance-icon img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+}
+
+.alliance-name{
+    flex:1;
+    font-size:1.2rem;
+    font-weight:600;
+}
+
+.btn{
+    padding:14px 24px;
+    border-radius:14px;
+    text-decoration:none;
+    color:white;
+    font-weight:600;
+    transition:.3s;
+    white-space:nowrap;
+}
+
+.primary{
+    background:
+    linear-gradient(
+    135deg,
+    var(--red),
+    var(--blue));
+}
+
+.btn:hover{
+    transform:translateY(-4px);
+}
+
+@keyframes fadeUp {
+
+    from{
+        opacity:0;
+        transform:translateY(40px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.page-header h1,
+.page-header p,
+.alliances-section{
+    opacity:0;
+    animation:fadeUp .9s forwards;
+}
+
+.page-header p{
+    animation-delay:.2s;
+}
+
+.alliances-section{
+    animation-delay:.35s;
+}
+
+@media (max-width:560px){
+
+    .alliance-bar{
+        flex-wrap:wrap;
+    }
+
+    .alliance-name{
+        flex:1 1 100%;
+        order:1;
+    }
+
+    .btn{
+        order:2;
+        margin-left:auto;
+    }
+}
+
+</style>
+</head>
+<body>
+
+<div class="grid"></div>
+<div class="spotlight"></div>
+
+<canvas id="particles"></canvas>
+
+<nav>
+    <a class="logo" href="index.html">
+        Bud <span>Studios</span>
+    </a>
+
+    <div class="links">
+        <a href="index.html">Home</a>
+        <a href="index2.html">Products/Projects</a>
+        <a href="index2.html">Services</a>
+        <a href="about.html" class="active">About</a>
+        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=aarushverma.12sep@gmail.com" target="_blank">Contact</a>
+    </div>
+</nav>
+
+<div class="page-header">
+    <h1>About Bud Studios</h1>
+    <p>
+        Bud Studios is a creative development team specializing in
+        Lua and Python. We focus on building games, scripts, and
+        interactive tools with clean, efficient code. Our goal is to
+        deliver fun, functional, and innovative projects while
+        constantly learning and improving. Bud Studios values
+        creativity, problem-solving, and modern software development
+        practices.
+    </p>
+</div>
+
+<section class="alliances-section">
+
+    <h2>Alliances</h2>
+
+    <div class="alliance-bar">
+
+        <div class="alliance-icon">
+            <img src="https://files.catbox.moe/opcpu7.png" alt="Whitelist Developments icon">
+        </div>
+
+        <div class="alliance-name">
+            Whitelist Developments
+        </div>
+
+        <a class="btn primary"
+           href="https://discord.gg/8RdBxe8sVK"
+           target="_blank">
+            Join
+        </a>
+
+    </div>
+
+</section>
+
+<script>
+
+/* Spotlight */
+
+const spotlight = document.querySelector('.spotlight');
+
+document.addEventListener('mousemove',e=>{
+    spotlight.style.left=e.clientX+'px';
+    spotlight.style.top=e.clientY+'px';
+});
+
+/* Particles */
+
+const canvas=document.getElementById('particles');
+const ctx=canvas.getContext('2d');
+
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+let particles=[];
+
+for(let i=0;i<120;i++){
+    particles.push({
+        x:Math.random()*canvas.width,
+        y:Math.random()*canvas.height,
+        r:Math.random()*2,
+        dx:(Math.random()-.5)*0.3,
+        dy:(Math.random()-.5)*0.3
+    });
+}
+
+function animate(){
+
+    ctx.clearRect(
+    0,0,
+    canvas.width,
+    canvas.height);
+
+    particles.forEach(p=>{
+
+        p.x+=p.dx;
+        p.y+=p.dy;
+
+        if(p.x<0)p.x=canvas.width;
+        if(p.x>canvas.width)p.x=0;
+        if(p.y<0)p.y=canvas.height;
+        if(p.y>canvas.height)p.y=0;
+
+        ctx.beginPath();
+        ctx.arc(
+        p.x,p.y,
+        p.r,
+        0,
+        Math.PI*2);
+
+        ctx.fillStyle=
+        "rgba(255,255,255,.3)";
+
+        ctx.fill();
+    });
+
+    requestAnimationFrame(animate);
+}
+
+animate();
+
+window.addEventListener('resize',()=>{
+    canvas.width=window.innerWidth;
+    canvas.height=window.innerHeight;
+});
+
+</script>
+
+</body>
+</html>

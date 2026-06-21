@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Bud Studios</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+    --bg:#050505;
+    --card:#0f0f0f;
+    --text:#ffffff;
+    --muted:#9c9c9c;
+    --red:#ff2d55;
+    --blue:#3b82f6;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Inter',sans-serif;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:var(--bg);
+    color:white;
+    overflow-x:hidden;
+}
+
+/* Noise Overlay */
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background-image:url("https://www.transparenttextures.com/patterns/asfalt-dark.png");
+    opacity:.03;
+    pointer-events:none;
+    z-index:999;
+}
+
+/* Spotlight */
+
+.spotlight{
+    position:fixed;
+    width:700px;
+    height:700px;
+    border-radius:50%;
+    background:
+    radial-gradient(circle,
+    rgba(59,130,246,.12),
+    rgba(255,45,85,.08),
+    transparent 70%);
+    pointer-events:none;
+    z-index:0;
+    transform:translate(-50%,-50%);
+}
+
+/* Grid */
+
+.grid{
+    position:fixed;
+    inset:0;
+    background-image:
+    linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size:40px 40px;
+    z-index:-1;
+}
+
+/* Navbar */
+
+nav{
+    position:fixed;
+    width:100%;
+    top:0;
+    z-index:100;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 7%;
+    backdrop-filter:blur(16px);
+    border-bottom:1px solid rgba(255,255,255,.05);
+}
+
+.logo{
+    font-size:1.6rem;
+    font-weight:800;
+}
+
+.logo span{
+    background:linear-gradient(
+    90deg,
+    var(--red),
+    var(--blue));
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.links{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:35px;
+}
+
+.links a{
+    color:white;
+    text-decoration:none;
+    text-align:center;
+    transition:.3s;
+}
+
+.links a:hover{
+    color:var(--blue);
+}
+
+/* Hero */
+
+.hero{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+
+    padding:
+        140px 20px
+        60px 20px;
+}
+.hero-content{
+    max-width:1100px;
+}
+
+.hero h1{
+    font-size:clamp(3rem,8vw,7rem);
+    line-height:1;
+    margin-bottom:25px;
+}
+
+.gradient{
+    background:
+    linear-gradient(
+    90deg,
+    white,
+    #999,
+    white);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.hero p{
+    color:var(--muted);
+    font-size:1.2rem;
+    max-width:700px;
+    margin:auto;
+}
+
+.hero-buttons{
+    margin-top:40px;
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.btn{
+    padding:16px 28px;
+    border-radius:14px;
+    text-decoration:none;
+    color:white;
+    font-weight:600;
+    transition:.3s;
+}
+
+.primary{
+    background:
+    linear-gradient(
+    135deg,
+    var(--red),
+    var(--blue));
+}
+
+.secondary{
+    border:1px solid rgba(255,255,255,.1);
+    background:rgba(255,255,255,.03);
+}
+
+.btn:hover{
+    transform:translateY(-4px);
+}
+
+/* Floating Cards */
+
+.floating{
+    margin-top:80px;
+    display:flex;
+    justify-content:center;
+    gap:25px;
+    flex-wrap:wrap;
+}
+
+.card{
+    width:260px;
+    padding:30px;
+    background:rgba(255,255,255,.03);
+    border:1px solid rgba(255,255,255,.08);
+    backdrop-filter:blur(20px);
+    border-radius:24px;
+    transition:.4s;
+}
+
+.card:hover{
+    transform:translateY(-12px);
+    border-color:rgba(59,130,246,.5);
+}
+
+.card h3{
+    margin-bottom:12px;
+}
+
+.card p{
+    color:var(--muted);
+}
+
+/* Particles */
+
+canvas{
+    position:fixed;
+    inset:0;
+    z-index:-2;
+}
+
+
+@keyframes heroReveal {
+
+    from{
+        opacity:0;
+        transform:
+            translateY(120px)
+            scale(.92);
+
+        filter:
+            blur(20px);
+    }
+
+    to{
+        opacity:1;
+        transform:
+            translateY(0)
+            scale(1);
+
+        filter:
+            blur(0);
+    }
+}
+
+@keyframes fadeUp {
+
+    from{
+        opacity:0;
+        transform:translateY(40px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+.hero h1{
+    animation:
+        heroReveal
+        1.3s
+        cubic-bezier(.22,1,.36,1)
+        forwards;
+}
+
+.hero p{
+    opacity:0;
+
+    animation:
+        fadeUp
+        .9s
+        .4s
+        forwards;
+}
+
+.hero-buttons{
+    opacity:0;
+
+    animation:
+        fadeUp
+        .9s
+        .7s
+        forwards;
+}
+
+.floating{
+    opacity:0;
+
+    animation:
+        fadeUp
+        1s
+        1s
+        forwards;
+}
+
+
+.code-section{
+    position:relative;
+    min-height:100vh;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    padding:100px 20px;
+
+    overflow:hidden;
+}
+
+
+.code-bg{
+    position:absolute;
+    inset:0;
+
+    background-image:url(
+    "https://files.catbox.moe/a9wim8.png");
+
+    background-size:cover;
+    background-position:center;
+
+    filter:
+        blur(14px)
+        brightness(.25);
+
+    opacity:0;
+    z-index:-2;
+}
+
+.code-section.active .code-bg{
+    opacity:1;
+}
+
+.terminal{
+
+    width:min(900px,90vw);
+
+    background:
+        rgba(10,10,10,.85);
+
+    backdrop-filter:
+        blur(30px);
+
+    border:
+        1px solid rgba(255,255,255,.08);
+
+    border-radius:24px;
+
+    overflow:hidden;
+
+    opacity:0;
+
+    transform:
+        translateY(120px);
+}
+
+.code-section.active .terminal{
+    opacity:1;
+    transform:translateY(0);
+}
+
+.terminal-top{
+
+    padding:15px 20px;
+
+    background:
+        rgba(255,255,255,.04);
+
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.dot{
+    width:12px;
+    height:12px;
+    border-radius:50%;
+}
+
+.red{
+    background:#ff5f57;
+}
+
+.yellow{
+    background:#ffbd2e;
+}
+
+.green{
+    background:#28c840;
+}
+
+.terminal-title{
+    margin-left:10px;
+    color:#888;
+}
+
+.terminal-body{
+    padding:40px;
+}
+
+.terminal-body pre{
+
+    font-size:1.1rem;
+    line-height:2;
+
+    color:white;
+
+    font-family:
+        Consolas,
+        monospace;
+}
+
+.approach-section{
+    min-height:140vh;
+    padding:150px 8%;
+}
+
+.approach-container{
+    max-width:1400px;
+    margin:auto;
+}
+
+.approach-word{
+
+    font-size:
+        clamp(4rem,10vw,9rem);
+
+    font-weight:900;
+
+    line-height:.95;
+
+    margin-bottom:40px;
+
+    opacity:.15;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--red),
+            var(--blue)
+        );
+
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.approach-grid{
+
+    margin-top:120px;
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(280px,1fr)
+        );
+
+    gap:30px;
+}
+
+.approach-card{
+
+    background:
+        rgba(255,255,255,.03);
+
+    border:
+        1px solid rgba(255,255,255,.08);
+
+    backdrop-filter:
+        blur(20px);
+
+    padding:35px;
+
+    border-radius:24px;
+
+    transition:.35s;
+}
+
+.approach-card:hover{
+
+    transform:
+        translateY(-10px);
+
+    border-color:
+        rgba(59,130,246,.5);
+}
+
+.approach-card span{
+
+    font-size:2rem;
+
+    display:block;
+
+    margin-bottom:20px;
+}
+
+.approach-card h3{
+
+    margin-bottom:12px;
+}
+
+.approach-card p{
+
+    color:var(--muted);
+    line-height:1.7;
+}
+
+
+.services-section{
+
+    padding:
+        180px 8%;
+
+    max-width:
+        1500px;
+
+    margin:auto;
+}
+
+.services-header{
+
+    text-align:center;
+
+    margin-bottom:100px;
+}
+
+.services-header h2{
+
+    font-size:
+        clamp(3rem,8vw,6rem);
+
+    margin-bottom:20px;
+}
+
+.services-header p{
+
+    color:var(--muted);
+
+    font-size:1.2rem;
+}
+
+.service-card{
+
+    position:relative;
+
+    min-height:450px;
+
+    border-radius:30px;
+
+    overflow:hidden;
+
+    margin-bottom:40px;
+
+    border:
+        1px solid rgba(255,255,255,.08);
+
+    background:
+        rgba(255,255,255,.03);
+
+    backdrop-filter:
+        blur(20px);
+
+    transition:.4s;
+}
+
+.service-card:hover{
+
+    transform:
+        translateY(-8px);
+}
+
+.service-content{
+
+    position:relative;
+
+    z-index:2;
+
+    max-width:700px;
+
+    padding:70px;
+}
+
+.service-tag{
+
+    display:inline-block;
+
+    margin-bottom:25px;
+
+    padding:10px 18px;
+
+    border-radius:999px;
+
+    background:
+        rgba(255,255,255,.08);
+
+    font-size:.9rem;
+}
+
+.service-card h3{
+
+    font-size:
+        clamp(2rem,5vw,4rem);
+
+    line-height:1.1;
+
+    margin-bottom:20px;
+}
+
+.service-card p{
+
+    color:var(--muted);
+
+    line-height:1.8;
+
+    margin-bottom:35px;
+
+    font-size:1.1rem;
+}
+
+
+.roblox::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+        radial-gradient(
+            circle at right,
+            rgba(59,130,246,.35),
+            transparent 60%
+        );
+
+    z-index:1;
+}
+
+.automation::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+        radial-gradient(
+            circle at right,
+            rgba(255,45,85,.35),
+            transparent 60%
+        );
+
+    z-index:1;
+}
+
+.custom::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+        radial-gradient(
+            circle at right,
+            rgba(120,120,255,.25),
+            transparent 60%
+        );
+
+    z-index:1;
+}
+</style>
+</head>
+<body>
+
+<div class="grid"></div>
+<div class="spotlight"></div>
+
+<canvas id="particles"></canvas>
+
+<nav>
+    <div class="logo">
+        Bud <span>Studios</span>
+    </div>
+
+    <div class="links">
+        <a href="#">Home</a>
+        <a href="roblox.html">Products/Projects</a>
+        <a href="#">Services</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+    </div>
+</nav>
+
+<section class="hero">
+
+<div class="hero-content">
+
+<h1>
+<span class="word">Building</span>
+<span class="word">Worlds.</span>
+
+<br>
+
+<span class="gradient">
+<span class="word">Creating</span>
+<span class="word">Experiences.</span>
+</span>
+</h1>
+<p>
+Bud Studios creates immersive games,
+advanced systems, stunning interfaces,
+and unforgettable digital experiences.
+</p>
+
+<div class="hero-buttons">
+    <a class="btn primary" href="roblox.html">
+        View Projects
+    </a>
+
+    <a class="btn secondary"
+       href="https://discord.gg/dHRw3CxgQ8"
+       target="_blank">
+        Join Community
+    </a>
+</div>
+
+<div class="floating">
+
+<div class="card">
+<h3>Game Development</h3>
+<p>AAA-quality systems built from the ground up.</p>
+</div>
+
+<div class="card">
+<h3>Multiplayer</h3>
+<p>Networking architecture built for scale.</p>
+</div>
+
+<div class="card">
+<h3>Studio Tools</h3>
+<p>Custom pipelines and internal solutions.</p>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="code-section">
+
+    <div class="code-bg"></div>
+
+    <div class="terminal">
+
+        <div class="terminal-top">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+
+            <span class="terminal-title">
+                Bud Studios Terminal
+            </span>
+        </div>
+
+        <div class="terminal-body">
+
+<pre>
+> studio.languages
+
+Python
+Lua
+
+> studio.focus
+
+Game Development
+Multiplayer Systems
+Studio Tooling
+
+> studio.status
+
+Building the future...
+</pre>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section class="approach-section">
+
+    <div class="approach-container">
+
+        <h2 class="approach-word">BUILD FASTER.</h2>
+        <h2 class="approach-word">SHIP BETTER.</h2>
+        <h2 class="approach-word">SCALE FURTHER.</h2>
+
+        <div class="approach-grid">
+
+            <div class="approach-card">
+                <span>⚡</span>
+                <h3>Fast Development</h3>
+                <p>
+                    Efficient workflows and rapid iteration
+                    keep projects moving forward.
+                </p>
+            </div>
+
+            <div class="approach-card">
+                <span>🛠</span>
+                <h3>Reliable Systems</h3>
+                <p>
+                    Clean, scalable code designed for
+                    long-term maintainability.
+                </p>
+            </div>
+
+            <div class="approach-card">
+                <span>💬</span>
+                <h3>Clear Communication</h3>
+                <p>
+                    Frequent updates and transparent
+                    development progress.
+                </p>
+            </div>
+
+            <div class="approach-card">
+                <span>💰</span>
+                <h3>Fair Pricing</h3>
+                <p>
+                    Professional results without
+                    enterprise-level costs.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section class="services-section">
+
+    <div class="services-header">
+        <h2>WHAT WE BUILD</h2>
+        <p>
+            Professional development solutions
+            for games, communities, and businesses.
+        </p>
+    </div>
+
+    <div class="service-card roblox">
+
+        <div class="service-content">
+
+            <span class="service-tag">
+                ⚔ ROBLOX SYSTEMS
+            </span>
+
+            <h3>
+                Powerful systems built for
+                Roblox experiences.
+            </h3>
+
+            <p>
+                Combat systems, inventories,
+                data saving, economies,
+                UI frameworks, and more.
+            </p>
+
+            <a href="roblox.html"
+               class="btn primary">
+                Explore Roblox Systems
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="service-card automation">
+
+        <div class="service-content">
+
+            <span class="service-tag">
+                🤖 AUTOMATION TOOLS
+            </span>
+
+            <h3>
+                Software that works
+                while you sleep.
+            </h3>
+
+            <p>
+                Discord bots, dashboards,
+                APIs, automation tools,
+                and custom software.
+            </p>
+
+            <a href="automation.html"
+               class="btn primary">
+                Explore Automation
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="service-card custom">
+
+        <div class="service-content">
+
+            <span class="service-tag">
+                🚀 CUSTOM DEVELOPMENT
+            </span>
+
+            <h3>
+                Your vision.
+                Our expertise.
+            </h3>
+
+            <p>
+                Fully custom solutions
+                designed around your project.
+            </p>
+
+            <a href="#contact"
+               class="btn primary">
+                Start a Project
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+<script>
+
+/* Spotlight */
+
+const spotlight = document.querySelector('.spotlight');
+
+document.addEventListener('mousemove',e=>{
+    spotlight.style.left=e.clientX+'px';
+    spotlight.style.top=e.clientY+'px';
+});
+
+/* Particles */
+
+const canvas=document.getElementById('particles');
+const ctx=canvas.getContext('2d');
+
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+let particles=[];
+
+for(let i=0;i<120;i++){
+    particles.push({
+        x:Math.random()*canvas.width,
+        y:Math.random()*canvas.height,
+        r:Math.random()*2,
+        dx:(Math.random()-.5)*0.3,
+        dy:(Math.random()-.5)*0.3
+    });
+}
+
+function animate(){
+
+    ctx.clearRect(
+    0,0,
+    canvas.width,
+    canvas.height);
+
+    particles.forEach(p=>{
+
+        p.x+=p.dx;
+        p.y+=p.dy;
+
+        if(p.x<0)p.x=canvas.width;
+        if(p.x>canvas.width)p.x=0;
+        if(p.y<0)p.y=canvas.height;
+        if(p.y>canvas.height)p.y=0;
+
+        ctx.beginPath();
+        ctx.arc(
+        p.x,p.y,
+        p.r,
+        0,
+        Math.PI*2);
+
+        ctx.fillStyle=
+        "rgba(255,255,255,.3)";
+
+        ctx.fill();
+    });
+
+    requestAnimationFrame(animate);
+}
+
+
+animate();
+
+	
+function updateCodeSection() {
+
+const codeSection =
+document.querySelector(".code-section");
+
+const codeBg =
+document.querySelector(".code-bg");
+
+const terminal =
+document.querySelector(".terminal");
+	
+    const rect =
+        codeSection.getBoundingClientRect();
+
+    const center =
+        rect.top + rect.height / 2;
+
+    const distance =
+        Math.abs(
+            window.innerHeight / 2
+            - center
+        );
+
+    const deadZone =
+        window.innerHeight * 0.4;
+
+    let progress;
+
+    if(distance < deadZone){
+
+        progress = 1;
+
+    }else{
+
+        progress =
+            1 -
+            (
+                (distance - deadZone)
+                /
+                (window.innerHeight * 0.75)
+            );
+
+    }
+
+    progress =
+        Math.max(
+            0,
+            Math.min(1, progress)
+        );
+
+    codeBg.style.opacity =
+        progress * 0.85;
+
+    terminal.style.opacity =
+        progress;
+
+    terminal.style.transform =
+        `translateY(${80 - progress*80}px)
+         scale(${0.9 + progress*0.1})`;
+}
+
+
+function codeLoop() {
+
+    updateCodeSection();
+
+    requestAnimationFrame(
+        codeLoop
+    );
+}
+
+codeLoop();
+
+
+const approachWords =
+document.querySelectorAll(
+    ".approach-word"
+);
+
+function updateApproach(){
+
+    approachWords.forEach(word=>{
+
+        const rect =
+            word.getBoundingClientRect();
+
+        const progress =
+            1 -
+            Math.abs(
+                window.innerHeight/2 -
+                (rect.top + rect.height/2)
+            )
+            /
+            window.innerHeight;
+
+        word.style.opacity =
+            Math.max(
+                .4,
+                progress
+            );
+
+    });
+
+}
+</script>
+
+</body>
+</html>
