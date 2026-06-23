@@ -874,5 +874,48 @@ function updateApproach(){
 }
 </script>
 
+<script>
+/*
+  Maintenance overlay toggle.
+  If white.html exists in the same directory, a full-screen
+  iframe loads it on top of everything (nav, hero, etc. all
+  hidden underneath). If white.html is removed/deleted, the
+  fetch below fails and this script does nothing — the rest
+  of the page (particles, spotlight, nav, etc.) works exactly
+  as normal with zero changes needed.
+*/
+(function(){
+
+    var alreadyAuthed =
+        localStorage.getItem('budStudiosAuth') === 'true';
+
+    if(alreadyAuthed) return;
+
+    fetch('white.html', { method:'HEAD', cache:'no-store' })
+        .then(function(res){
+
+            if(!res.ok) return;
+
+            var overlay = document.createElement('iframe');
+
+            overlay.src = 'white.html';
+            overlay.id = 'maintenance-overlay';
+
+            overlay.style.cssText =
+                'position:fixed;top:0;left:0;' +
+                'width:100vw;height:100vh;' +
+                'border:none;z-index:999999;' +
+                'background:#fff;';
+
+            document.documentElement.appendChild(overlay);
+
+        })
+        .catch(function(){
+            /* white.html missing — site behaves normally */
+        });
+
+})();
+</script>
+
 </body>
 </html>
